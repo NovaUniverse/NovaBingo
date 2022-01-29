@@ -1,4 +1,4 @@
-package net.novauniverse.games.bingo.game;
+package net.novauniverse.games.bingo.game.debug;
 
 import java.util.List;
 

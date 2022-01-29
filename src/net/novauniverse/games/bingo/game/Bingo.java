@@ -13,6 +13,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
@@ -29,9 +30,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 import net.novauniverse.games.bingo.NovaBingo;
 import net.novauniverse.games.bingo.game.event.BingoPlayerFindItemEvent;
 import net.novauniverse.games.bingo.game.event.BingoTeamCompleteEvent;
+import net.novauniverse.games.bingo.game.items.BingoBookItem;
 import net.zeeraa.novacore.commons.log.Log;
 import net.zeeraa.novacore.commons.tasks.Task;
 import net.zeeraa.novacore.commons.utils.Callback;
+import net.zeeraa.novacore.spigot.module.modules.customitems.CustomItemManager;
 import net.zeeraa.novacore.spigot.module.modules.game.Game;
 import net.zeeraa.novacore.spigot.module.modules.game.GameEndReason;
 import net.zeeraa.novacore.spigot.module.modules.game.elimination.PlayerQuitEliminationAction;
@@ -42,6 +45,7 @@ import net.zeeraa.novacore.spigot.module.modules.multiverse.WorldOptions;
 import net.zeeraa.novacore.spigot.tasks.SimpleTask;
 import net.zeeraa.novacore.spigot.teams.Team;
 import net.zeeraa.novacore.spigot.teams.TeamManager;
+import net.zeeraa.novacore.spigot.utils.LocationUtils;
 import net.zeeraa.novacore.spigot.utils.PlayerUtils;
 import net.zeeraa.novacore.spigot.utils.RandomFireworkEffect;
 import net.zeeraa.novacore.spigot.world.worldgenerator.worldpregenerator.WorldPreGenerator;
@@ -179,6 +183,9 @@ public class Bingo extends Game implements Listener {
 		});
 		worldPreGenerator.start();
 
+		// Game rules
+		world.setGameRuleValue("keepInventory", "true");
+
 		checkTask = new SimpleTask(NovaBingo.getInstance(), new Runnable() {
 			@Override
 			public void run() {
@@ -200,6 +207,11 @@ public class Bingo extends Game implements Listener {
 
 			return;
 		}
+
+		Bukkit.getServer().getOnlinePlayers().forEach(player -> {
+			player.setFoodLevel(20);
+			player.setSaturation(20);
+		});
 
 		Bukkit.getServer().getOnlinePlayers().forEach(player -> {
 			if (players.contains(player.getUniqueId())) {
@@ -339,7 +351,11 @@ public class Bingo extends Game implements Listener {
 		this.materialToFind = BingoItemGenerator.generateItems();
 
 		Bukkit.getServer().getOnlinePlayers().forEach(player -> {
+			player.getInventory().clear();
+
 			if (!players.contains(player.getUniqueId())) {
+				player.setGameMode(GameMode.SPECTATOR);
+				player.teleport(this.getWorld().getSpawnLocation());
 				return;
 			}
 
@@ -377,7 +393,9 @@ public class Bingo extends Game implements Listener {
 				return;
 			}
 
-			final Location finalSpawnLocation = spawnLocation;
+			ItemStack bingoBook = CustomItemManager.getInstance().getCustomItemStack(BingoBookItem.class, player);
+
+			final Location finalSpawnLocation = LocationUtils.centerLocation(spawnLocation);
 
 			PlayerUtils.resetMaxHealth(player);
 			PlayerUtils.resetPlayerXP(player);
@@ -389,8 +407,12 @@ public class Bingo extends Game implements Listener {
 			player.setFallDistance(0F);
 			player.setHealth(20D);
 			player.setSaturation(20F);
-
 			player.getInventory().clear();
+			player.getInventory().setItem(8, bingoBook);
+			
+			player.sendMessage(ChatColor.GREEN + "Gather all 9 Items to Win!");
+			player.sendMessage(ChatColor.GREEN + "Use /teamtp to teleport to your teammates");
+			player.sendMessage(ChatColor.GREEN + "Good luck!");
 
 			new BukkitRunnable() {
 				@Override
@@ -420,6 +442,21 @@ public class Bingo extends Game implements Listener {
 		if (ended) {
 			return;
 		}
+
+		Bukkit.getServer().getOnlinePlayers().forEach(p -> {
+			p.setGameMode(GameMode.SPECTATOR);
+			p.getInventory().clear();
+
+			Team team = TeamManager.getTeamManager().getPlayerTeam(p);
+			if (team != null) {
+				if (!teamMaterialToFind.containsKey(team)) {
+					this.spawnFirework(p.getLocation());
+					p.playSound(p.getLocation(), Sound.LEVEL_UP, 1F, 1F);
+				} else {
+					p.playSound(p.getLocation(), Sound.BLAZE_HIT, 1F, 1F);
+				}
+			}
+		});
 
 		Task.tryStopTask(checkTask);
 

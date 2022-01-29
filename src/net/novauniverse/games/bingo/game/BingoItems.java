@@ -13,7 +13,7 @@ public class BingoItems {
 	static {
 		POSSIBLE_ITEMS.put(Material.BREAD, "Bread");
 		POSSIBLE_ITEMS.put(Material.IRON_INGOT, "Iron ingot");
-		POSSIBLE_ITEMS.put(Material.COOKED_BEEF, "Cooked beef");
+		POSSIBLE_ITEMS.put(Material.COOKED_BEEF, "Steak");
 		POSSIBLE_ITEMS.put(Material.WOOL, "Wool");
 		POSSIBLE_ITEMS.put(Material.STONE, "Stone");
 		POSSIBLE_ITEMS.put(Material.COBBLESTONE, "Cobblestone");
@@ -24,6 +24,9 @@ public class BingoItems {
 		POSSIBLE_ITEMS.put(Material.PAPER, "Paper");
 		POSSIBLE_ITEMS.put(Material.SUGAR, "Sugar");
 		POSSIBLE_ITEMS.put(Material.SUGAR_CANE, "Sugarcane");
+		POSSIBLE_ITEMS.put(Material.BUCKET, "Bucket");
+		POSSIBLE_ITEMS.put(Material.LAVA_BUCKET, "Lava bucket");
+		POSSIBLE_ITEMS.put(Material.WATER_BUCKET, "Water bucket");
 	}
 	
 	public static String getMaterialDisplayName(Material material) {
