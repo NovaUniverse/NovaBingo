@@ -19,7 +19,6 @@ public class BingoItems {
 		POSSIBLE_ITEMS.put(Material.COBBLESTONE, "Cobblestone");
 		POSSIBLE_ITEMS.put(Material.GLASS_BOTTLE, "Glass bottle");
 		POSSIBLE_ITEMS.put(Material.GLASS, "Glass");
-		POSSIBLE_ITEMS.put(Material.BONE, "Bone");
 		POSSIBLE_ITEMS.put(Material.GOLD_INGOT, "Gold ingot");
 		POSSIBLE_ITEMS.put(Material.PAPER, "Paper");
 		POSSIBLE_ITEMS.put(Material.SUGAR, "Sugar");

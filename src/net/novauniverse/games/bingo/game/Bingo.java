@@ -77,6 +77,8 @@ public class Bingo extends Game implements Listener {
 	 * @param timeMinutes     Time in munutes that the game should run
 	 */
 	public Bingo(int worldSizeChunks, int timeMinutes) {
+		super(NovaBingo.getInstance());
+		
 		this.worldSizeChunks = worldSizeChunks;
 		this.timeMinutes = timeMinutes;
 	}
@@ -349,7 +351,7 @@ public class Bingo extends Game implements Listener {
 		end = LocalDateTime.now().plusMinutes(timeMinutes);
 
 		this.materialToFind = BingoItemGenerator.generateItems();
-
+		
 		Bukkit.getServer().getOnlinePlayers().forEach(player -> {
 			player.getInventory().clear();
 
