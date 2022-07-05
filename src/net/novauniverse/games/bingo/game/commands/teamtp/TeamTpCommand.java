@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.Plugin;
 
-import net.zeeraa.novacore.commons.utils.UUIDUtils;
 import net.zeeraa.novacore.spigot.command.AllowedSenders;
 import net.zeeraa.novacore.spigot.command.NovaCommand;
 import net.zeeraa.novacore.spigot.teams.Team;
@@ -44,7 +43,7 @@ public class TeamTpCommand extends NovaCommand {
 
 			if (team2 != null) {
 				if (team2.equals(team)) {
-					if (!UUIDUtils.isSame(player.getUniqueId(), p2.getUniqueId())) {
+					if (!player.getUniqueId().equals(p2.getUniqueId())) {
 						otherPlayers.add(p2);
 					}
 				}
@@ -93,7 +92,7 @@ public class TeamTpCommand extends NovaCommand {
 
 				if (team2 != null) {
 					if (team2.equals(team)) {
-						if (!UUIDUtils.isSame(player.getUniqueId(), p2.getUniqueId())) {
+						if (!player.getUniqueId().equals(p2.getUniqueId())) {
 							result.add(p2.getName());
 						}
 					}

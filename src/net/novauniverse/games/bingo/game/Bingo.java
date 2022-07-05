@@ -34,10 +34,10 @@ import net.novauniverse.games.bingo.game.items.BingoBookItem;
 import net.zeeraa.novacore.commons.log.Log;
 import net.zeeraa.novacore.commons.tasks.Task;
 import net.zeeraa.novacore.commons.utils.Callback;
+import net.zeeraa.novacore.spigot.gameengine.module.modules.game.Game;
+import net.zeeraa.novacore.spigot.gameengine.module.modules.game.GameEndReason;
+import net.zeeraa.novacore.spigot.gameengine.module.modules.game.elimination.PlayerQuitEliminationAction;
 import net.zeeraa.novacore.spigot.module.modules.customitems.CustomItemManager;
-import net.zeeraa.novacore.spigot.module.modules.game.Game;
-import net.zeeraa.novacore.spigot.module.modules.game.GameEndReason;
-import net.zeeraa.novacore.spigot.module.modules.game.elimination.PlayerQuitEliminationAction;
 import net.zeeraa.novacore.spigot.module.modules.multiverse.MultiverseManager;
 import net.zeeraa.novacore.spigot.module.modules.multiverse.MultiverseWorld;
 import net.zeeraa.novacore.spigot.module.modules.multiverse.PlayerUnloadOption;
@@ -77,6 +77,8 @@ public class Bingo extends Game implements Listener {
 	 * @param timeMinutes     Time in munutes that the game should run
 	 */
 	public Bingo(int worldSizeChunks, int timeMinutes) {
+		super(NovaBingo.getInstance());
+		
 		this.worldSizeChunks = worldSizeChunks;
 		this.timeMinutes = timeMinutes;
 	}
@@ -349,7 +351,7 @@ public class Bingo extends Game implements Listener {
 		end = LocalDateTime.now().plusMinutes(timeMinutes);
 
 		this.materialToFind = BingoItemGenerator.generateItems();
-
+		
 		Bukkit.getServer().getOnlinePlayers().forEach(player -> {
 			player.getInventory().clear();
 

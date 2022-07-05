@@ -13,7 +13,7 @@ import org.bukkit.plugin.Plugin;
 
 import net.novauniverse.games.bingo.NovaBingo;
 import net.novauniverse.games.bingo.game.BingoItems;
-import net.zeeraa.novacore.spigot.abstraction.VersionIndependantUtils;
+import net.zeeraa.novacore.spigot.abstraction.VersionIndependentUtils;
 import net.zeeraa.novacore.spigot.abstraction.enums.ColoredBlockType;
 import net.zeeraa.novacore.spigot.command.AllowedSenders;
 import net.zeeraa.novacore.spigot.command.NovaCommand;
@@ -78,8 +78,8 @@ public class BingoCommand extends NovaCommand {
 
 		Inventory gui = Bukkit.createInventory(new GUIReadOnlyHolder(), 9 * 3, args.length > 0 ? target.getName() + "´s bingo items" : "Bingo items");
 
-		ItemStack background = new ItemBuilder(VersionIndependantUtils.get().getColoredItem(DyeColor.RED, ColoredBlockType.GLASS_PANE)).setAmount(1).setName(ChatColor.RED + "Not completed").build();
-		ItemStack backgroundCompleted = new ItemBuilder(VersionIndependantUtils.get().getColoredItem(DyeColor.LIME, ColoredBlockType.GLASS_PANE)).setAmount(1).setName(ChatColor.GREEN + "Completed").build();
+		ItemStack background = new ItemBuilder(VersionIndependentUtils.get().getColoredItem(DyeColor.RED, ColoredBlockType.GLASS_PANE)).setAmount(1).setName(ChatColor.RED + "Not completed").build();
+		ItemStack backgroundCompleted = new ItemBuilder(VersionIndependentUtils.get().getColoredItem(DyeColor.LIME, ColoredBlockType.GLASS_PANE)).setAmount(1).setName(ChatColor.GREEN + "Completed").build();
 
 		for (int i = 0; i < NovaBingo.getInstance().getGame().getMaterialToFind().size(); i++) {
 			Material material = NovaBingo.getInstance().getGame().getMaterialToFind().get(i);

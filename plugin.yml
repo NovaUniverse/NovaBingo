@@ -1,6 +1,6 @@
 name: Bingo
 main: net.novauniverse.games.bingo.NovaBingo
-description: Novauniverse bINGO
+description: Novauniverse Bingo
 version: 1.0
 depend: [NovaCore, NovaCoreGameEngine]
 softdepend: [NovaGamesTarget]
